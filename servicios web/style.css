@@ -1,3 +1,35 @@
 h1 {
-    color: rgb(255, 0, 98);
+    color: rgb(157, 115, 255);
+}
+h2{
+    color: #e7dddd;
+}
+body{
+     background-image: url("../imagenes/fondo-hexagonal-oscuro-color-degradado_79603-1409.avif");
+}
+
+div {
+    height: 120px;
+    display: block;
+    margin-top: 15px;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    
+ }
+.gris {
+    background-color: rgb(128, 137, 145);
+}
+
+button {
+    background-color: rgb(71, 31, 165);
+    border: rgb(71, 31, 165);
+    color: #ffff;
+    font-size: 14px;
+    padding: 5px;
+    margin-left: 40px; 
+}
+
+b {
+    font-size: 20px;
 }
