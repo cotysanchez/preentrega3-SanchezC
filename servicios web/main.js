@@ -33,8 +33,7 @@ const eliminarDelCarrito = (id) =>{
 }
 
 
-
-//
+//recorremos los servicios
 servicios.forEach((servicio) => {
   let div = document.createElement('div');
   div.innerHTML = `
@@ -45,19 +44,21 @@ servicios.forEach((servicio) => {
   `;
   div.className = 'gris';
 
+  //agregamos el docuemeto al body en un div
   document.body.append(div);
 
+  //damos un evento  click al boton, pidiendole que agregue el id del servicio
   let boton = document.getElementById(`boton${servicio.id}`);
   boton.addEventListener('click', () => agregar(servicio.id));
 
-  // EL BOTON ELIMINAR NO FUNCIONA
-  /*
+
+  /* EL BOTON ELIMINAR NO CUMPLE LA FUNCION :O
   let botonEliminar = document.createElement('button');
   botonEliminar.textContent = 'Eliminar del Carrito';
   botonEliminar.addEventListener('click', () => eliminarDelCarrito(servicio.id));
 
   div.appendChild(botonEliminar);
- */
+  */
 
 });
 
@@ -92,6 +93,7 @@ servicios.forEach((servicio) => {
 
  };
 
+ 
  mostrarCarrito();
 
  */
