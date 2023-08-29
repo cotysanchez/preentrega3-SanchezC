@@ -1,12 +1,18 @@
+//Creamos el Array de Objetos para los Servicios
 const servicios = [
   { id: 1, nombre: 'Desarrollo Web', precio: 580 },
   { id: 2, nombre: 'Diseño Web', precio: 520 },
   { id: 3, nombre: 'Marketing Digital', precio: 490 },
 ];
 
+//guardamos el arreglo en el stoage y le damos formato JSON
+localStorage.setItem('servicios', JSON.stringify(servicios));
+
+/////
+
 const agregar = (id) => {
 let servicio = servicios.find((servicio) => servicio.id === id);
- console.log(servicio); // aca agregar al localStorage
+ console.log(servicio); 
  }
 
 servicios.forEach((servicio) => {

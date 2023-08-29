@@ -6,6 +6,8 @@ h2{
 }
 body{
      background-image: url("../imagenes/fondo-hexagonal-oscuro-color-degradado_79603-1409.avif");
+     background-size: cover;
+     background-repeat: no-repeat;
 }
 
 div {
