@@ -49,7 +49,7 @@ servicios.forEach((servicio) => {
   //damos un evento  click al boton, pidiendole que agregue el id del servicio
   let boton = document.getElementById(`boton${servicio.id}`);
   boton.addEventListener('click', () => agregar(servicio.id));
-  
+
   
 /*
   //EL BOTON ELIMINAR NO CUMPLE LA FUNCION :O
@@ -58,9 +58,10 @@ servicios.forEach((servicio) => {
   botonEliminar.addEventListener('click', () => eliminarDelCarrito(servicio.id));
 
   div.appendChild(botonEliminar);
-  
+  */
 });
-*/
+
+
 /*
  //funcion para mostrar el carrito con los servicios seleccionados
  const mostrarCarrito =() => {
@@ -94,5 +95,6 @@ servicios.forEach((servicio) => {
 
  
  mostrarCarrito();
+
 
 */
