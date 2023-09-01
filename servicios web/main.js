@@ -10,9 +10,7 @@ const servicios = [
 let boton = '';
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-document.addEventListener(
-  'DOMContentLoaded',
-  () => {
+document.addEventListener('DOMContentLoaded',() => {
     servicios.forEach((servicio) => {
       mostrarServicios(servicio);
     });
