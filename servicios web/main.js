@@ -1,4 +1,5 @@
 const cursos = document.getElementById('cursos');
+
 //Creamos el Array de Objetos para los Servicios
 const servicios = [
   { id: 1, nombre: 'Desarrollo Web', precio: 580 },
@@ -6,102 +7,130 @@ const servicios = [
   { id: 3, nombre: 'Marketing Digital', precio: 490 },
 ];
 
-//guardamos el arreglo en el stoage y le damos formato JSON
-localStorage.setItem('servicios', JSON.stringify(servicios));
-//obtenemos el arreglo de servicios del Storage
-let carrito = [];
+let boton = '';
+let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-//guardamos el carrito en el Storage
-localStorage.setItem('carrito', JSON.stringify('carrito'));
-//obtenemos el carrito del Storage
+document.addEventListener(
+  'DOMContentLoaded',
+  () => {
+    servicios.forEach((servicio) => {
+      mostrarServicios(servicio);
+    });
+  },
+  false
+);
 
-//funcion para agregar servicios al carrito
-const agregar = (id) => {
-  let servicio = servicios.find((servicio) => servicio.id === id);
-  let seleccion = {
-    id: servicio.id,
-    nombre: servicio.nombre,
-    precio: servicio.precio,
-  };
-  carrito.push(seleccion);
-  console.log(seleccion);
-  localStorage.setItem('carrito', carrito);
-  // console.log("Servicio agregado al Carrito:", servicio);
-  mostrarCarrito();
-  calcularTotal();
-};
-
-//funcion para eliminar servicios del carrito
-const eliminarDelCarrito = (id) => {
-  let index = carrito.findIndex((servicio) => servicio.id === id);
-  if (index !== -1) {
-    carrito.splice(index, 1);
-    localStorage.setItem('carrito', JSON.stringify('carrito'));
-  }
-};
-
-//recorremos los servicios
-servicios.forEach((servicio) => {
-  let div = document.createElement('div');
-  div.innerHTML = `
+function mostrarServicios(servicio) {
+  const serviciosDivContainer = document.createElement('DIV');
+  serviciosDivContainer.innerHTML = `
   <p>Id: ${servicio.id}</p>
   <h3>Nombre: ${servicio.nombre}</h3>
   <b>$${servicio.precio}</b>
-  <button id="boton${servicio.id}">Agregar al Carrito</button>
+  <button type="button" data-servicioId="${servicio.id}" id="boton${servicio.id}">Agregar al Carrito</button>
   `;
+  serviciosDivContainer.classList.add('gris');
 
-  let botonEliminar = document.createElement('button');
-  botonEliminar.addEventListener('click', () =>
-    eliminarDelCarrito(servicio.id)
+  cursos.appendChild(serviciosDivContainer);
+
+  boton = document.getElementById(`boton${servicio.id}`);
+  boton.addEventListener('click', agregar);
+}
+
+function agregar(e) {
+  const servicioSeleccionado = servicios.filter(
+    (servicio) =>
+      servicio.id === parseInt(e.target.attributes['data-servicioId'].value)
+  )[0];
+  //console.(servicioSeleccionado);
+  //Verificar si el Servicio ya esta en el carrito
+  const servicioEnCarrito = carrito.find(
+    (item) => item.id === servicioSeleccionado.id
   );
-  console.log(eliminarDelCarrito);
 
-  div.className = 'gris';
+  if (servicioEnCarrito) {
+    //Si ya esta en el carrito, incrementa la cantidad en 1
+    servicioEnCarrito.cantidad++;
+  } else {
+    //Si no está en el Carrito, lo agrega con una cantidad inicial de 1
+    servicioSeleccionado.cantidad = 1;
+    carrito.push(servicioSeleccionado);
+  }
 
-  //agregamos el docuemeto al body en un div
-  cursos.append(div);
+  localStorage.setItem('carrito', JSON.stringify(carrito));
 
-  //damos un evento  click al boton, pidiendole que agregue el id del servicio
-  let boton = document.getElementById(`boton${servicio.id}`);
-  boton.addEventListener('click', () => agregar(servicio.id));
-});
-
-const contenedorCursos = document.getElementById('contenedorCursos');
-const precioTotal = document.getElementById('precioTotal');
+  mostrarCarrito(true, carrito);
+  calcularTotal();
+}
 
 //funcion para mostrar el carrito con los servicios seleccionados
-function mostrarCarrito() {
-  contenedorCursos.innerHTML = '';
+function mostrarCarrito(refresh = false, carritoActualizado) {
+  const carritoContainerDiv = document.querySelector('.carrito-container');
+  const carritoList = document.querySelector('.carrito-list');
 
-  let servicioInfo = document.createElement('div');
-  let carritoContainer = document.createElement('div');
-  carritoContainer.innerHTML = '';
-  servicioInfo.innerHTML = '';
-  carritoContainer.innerHTML = `<h2> Carrito de Compras</h2>`;
+  if (refresh) {
+    console.log(carritoList.lastChild);
+    let elementAEliminar = carritoList.lastChild;
+    while (elementAEliminar) {
+      carritoList.removeChild(elementAEliminar);
+      elementAEliminar = carritoList.lastChild;
+    }
+    carritoContainerDiv.classList.remove('carrito-container-active');
+  }
 
-  carrito.forEach((servicio) => {
-    servicioInfo.innerHTML += `
+  carritoActualizado.forEach((servicio) => {
+    const carritoItemList = document.createElement('LI');
+    carritoItemList.innerHTML += `
     <p>Nombre:${servicio.nombre}</p>
-    <p>Precio:$${servicio.precio}</p>
-    <button id="id${servicio.id}">Eliminar</button>
+    <p>Precio:$${servicio.precio * servicio.cantidad}</p>
+    <p>Cantidad: ${servicio.cantidad}</p>
+    <button type="button" class="eliminar-btn" data-servicioId="${
+      servicio.id
+    }" id="btn-eliminar${servicio.id}">Eliminar</button>
+    
     `;
 
-    carritoContainer.appendChild(servicioInfo);
-    contenedorCursos.appendChild(carritoContainer);
+    carritoContainerDiv.classList.add('carrito-container-active');
+    carritoList.appendChild(carritoItemList);
+    carritoContainerDiv.appendChild(carritoList);
+    document.body.appendChild(carritoContainerDiv);
+    console.log(carrito.length);
+
+    if (carrito.length === 0) {
+      carritoContainerDiv.classList.remove('carrito-container-active');
+      document.body.removeChild(carritoContainerDiv);
+      return;
+    }
+    carritoItemList.addEventListener('click', eliminarDelCarrito); //Aca se crea el evento click cada vez que se crea el boton eliminar, se le pasa el evento por parametro para poder tener en tiempo real a lo que se le dio click
   });
 }
 
+//Funcion Eliminar
+const eliminarDelCarrito = (e) => {
+  if (e.target.classList.contains('eliminar-btn')) {
+    const carritoActualizado = carrito.filter(
+      (item) =>
+        item.id !== parseInt(e.target.attributes['data-servicioId'].value)
+    );
+    carrito = [...carritoActualizado];
+
+    localStorage.setItem('carrito', JSON.stringify([...carrito]));
+  }
+
+  mostrarCarrito(true, carrito);
+  calcularTotal();
+};
+
+//Funcion Calcular Total
 function calcularTotal() {
   precioTotal.innerHTML = '';
   let total = 0;
-  carrito.forEach((prod) => {
-    total += prod.precio;
+  carrito.forEach((servicio) => {
+    total += servicio.precio * servicio.cantidad;
   });
   let totalElement = document.createElement('div');
-  totalElement.innerHTML = ` <h3> Total: $${total}</h3>`;
+  totalElement.innerHTML = ` <h4> Total: $${total}</h4>`;
 
   precioTotal.appendChild(totalElement);
 }
 
-// mostrarCarrito();
-// calcularTotal()
+mostrarCarrito(true, carrito);

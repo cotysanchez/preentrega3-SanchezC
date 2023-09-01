@@ -1,24 +1,39 @@
 h1 {
     color: rgb(157, 115, 255);
+    padding-left: 15px;
+    padding-top: 10px;
 }
-h2{
+
+h2 {
     color: #e7dddd;
 }
-body{
-     background-image: url("../imagenes/fondo-hexagonal-oscuro-color-degradado_79603-1409.avif");
-     background-size: cover;
-     background-repeat: no-repeat;
+
+h3{
+    color: black;
+}
+
+h4{
+    color: #ffff;
+    font-size: 25px;
+}
+
+body {
+    background-image: url("../imagenes/fondo-hexagonal-oscuro-color-degradado_79603-1409.avif");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
 }
 
 div {
-    height: 120px;
-    display: block;
     margin-top: 15px;
+    margin-right: 40px;
     padding-top: 5px;
     padding-left: 10px;
     padding-bottom: 10px;
-     
- }
+    display:inline-flexbox;
+
+}
+
 .gris {
     background-color: rgb(128, 137, 145);
 }
@@ -29,10 +44,23 @@ button {
     color: #ffff;
     font-size: 14px;
     padding: 5px;
-    margin-left: 40px; 
+    margin-left: 40px;
 }
 
 b {
     font-size: 20px;
 }
 
+.carrito-container-active {
+    background-color: rgb(154, 167, 190);
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: 15px;
+    padding-right: 25px;
+    
+}
+
+.eliminar-btn {
+    cursor: pointer;
+}
