@@ -34,12 +34,11 @@ function mostrarServicios(servicio) {
   boton.addEventListener('click', agregar);
 }
 
+//Funcion agregar Servicios al Carrito
 function agregar(e) {
-  const servicioSeleccionado = servicios.filter(
-    (servicio) =>
-      servicio.id === parseInt(e.target.attributes['data-servicioId'].value)
-  )[0];
+  const servicioSeleccionado = servicios.filter((servicio) => servicio.id === parseInt(e.target.attributes['data-servicioId'].value))[0];
   //console.(servicioSeleccionado);
+
   //Verificar si el Servicio ya esta en el carrito
   const servicioEnCarrito = carrito.find(
     (item) => item.id === servicioSeleccionado.id
@@ -102,13 +101,10 @@ function mostrarCarrito(refresh = false, carritoActualizado) {
   });
 }
 
-//Funcion Eliminar
+//Funcion Eliminar S>ervicio del Carrito
 const eliminarDelCarrito = (e) => {
   if (e.target.classList.contains('eliminar-btn')) {
-    const carritoActualizado = carrito.filter(
-      (item) =>
-        item.id !== parseInt(e.target.attributes['data-servicioId'].value)
-    );
+    const carritoActualizado = carrito.filter((item) => item.id !== parseInt(e.target.attributes['data-servicioId'].value));
     carrito = [...carritoActualizado];
 
     localStorage.setItem('carrito', JSON.stringify([...carrito]));
