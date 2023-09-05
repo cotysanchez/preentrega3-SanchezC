@@ -26,17 +26,16 @@ body {
 
 div {
     margin-top: 15px;
-    margin-right: 40px;
+    margin-left: 10px;
+    margin-right: 5px;
     padding-top: 5px;
     padding-left: 10px;
+    padding-right: 10px;
     padding-bottom: 10px;
-    display:inline-flexbox;
+    display:inline-block;
 
 }
 
-.gris {
-    background-color: rgb(128, 137, 145);
-}
 
 button {
     background-color: rgb(71, 31, 165);
@@ -50,6 +49,11 @@ button {
 b {
     font-size: 20px;
 }
+
+.card {
+    background-color: rgb(240, 247, 252);   
+}
+
 
 .carrito-container-active {
     background-color: rgb(154, 167, 190);

@@ -2,9 +2,27 @@ const cursos = document.getElementById('cursos');
 
 //Creamos el Array de Objetos para los Servicios
 const servicios = [
-  { id: 1, nombre: 'Desarrollo Web', precio: 580 },
-  { id: 2, nombre: 'Diseño Web', precio: 520 },
-  { id: 3, nombre: 'Marketing Digital', precio: 490 },
+  {
+    id: 1,
+    nombre: 'Desarrollo Web',
+    precio: 580,
+    img: './imagenes/Consultoria-1.jpg',
+    descripcion: 'Curso de Desarrollo Web Aprende a crear tu propio sitio web desde Cero'
+  },
+  {
+    id: 2,
+    nombre: 'Diseño Web',
+    precio: 520,
+    img: './imagenes/academia-digital1.jpg',
+    descripcion: 'Curso de Diseño Web con Wordpress y herramientas Drag & Drop'
+  },
+  {
+    id: 3,
+    nombre: 'Marketing Digital',
+    precio: 490,
+    img: './imagenes/talleres-online1.jpg',
+    descripcion: 'Curso de Marketing Digital Aprende a posicionar tu negocio a nivel global'
+  },
 ];
 
 let boton = '';
@@ -21,12 +39,19 @@ document.addEventListener('DOMContentLoaded',() => {
 function mostrarServicios(servicio) {
   const serviciosDivContainer = document.createElement('DIV');
   serviciosDivContainer.innerHTML = `
-  <p>Id: ${servicio.id}</p>
-  <h3>Nombre: ${servicio.nombre}</h3>
-  <b>$${servicio.precio}</b>
-  <button type="button" data-servicioId="${servicio.id}" id="boton${servicio.id}">Agregar al Carrito</button>
+  <div class="col">
+    <div class="card">
+       <img src="${servicio.img}" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">${servicio.nombre}</h5>
+        <p class="card-text">${servicio.descripcion} </p>
+        <p>Id:${servicio.id}</p>
+        <b>$${servicio.precio}</b>
+        <button type="button" data-servicioId="${servicio.id}" id="boton${servicio.id}">Agregar al Carrito</button> 
+      </div>
+    </div>
   `;
-  serviciosDivContainer.classList.add('gris');
+  
 
   cursos.appendChild(serviciosDivContainer);
 
