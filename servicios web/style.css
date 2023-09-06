@@ -1,21 +1,24 @@
 h1 {
-    color: rgb(157, 115, 255);
+    color: rgb(252, 250, 255);
     padding-left: 15px;
     padding-top: 10px;
 }
 
-h2 {
+
+
+h4{
+    color: #e7dddd;
+    font-size: 25px;
+}
+
+h5{ 
     color: #e7dddd;
 }
 
-h3{
-    color: black;
+p{
+    color: #e7dddd;
 }
 
-h4{
-    color: #ffff;
-    font-size: 25px;
-}
 
 body {
     background-image: url("../imagenes/fondo-hexagonal-oscuro-color-degradado_79603-1409.avif");
@@ -32,14 +35,13 @@ div {
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 10px;
-    display:inline-block;
-
 }
 
 
 button {
     background-color: rgb(71, 31, 165);
     border: rgb(71, 31, 165);
+    border-radius: 4%;
     color: #ffff;
     font-size: 14px;
     padding: 5px;
@@ -47,16 +49,22 @@ button {
 }
 
 b {
+    color: #e7dddd;
     font-size: 20px;
 }
 
 .card {
-    background-color: rgb(240, 247, 252);   
+    background-color: rgb(24, 25, 26);   
 }
 
 
+.card-title {
+    color: #e7dddd;
+}
+
 .carrito-container-active {
-    background-color: rgb(154, 167, 190);
+    background-color: rgb(24, 25, 26);
+    color: #e7dddd;
     position: absolute;
     top: 0;
     right: 0;
