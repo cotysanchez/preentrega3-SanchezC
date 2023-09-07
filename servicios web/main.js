@@ -7,31 +7,38 @@ const servicios = [
     nombre: 'Desarrollo Web',
     precio: 580,
     img: './imagenes/Consultoria-1.jpg',
-    descripcion: 'Curso de Desarrollo Web Aprende a crear tu propio sitio web desde Cero'
+    descripcion:
+      'Curso de Desarrollo Web Aprende a crear tu propio sitio web desde Cero',
   },
   {
     id: 2,
     nombre: 'Diseño Web',
     precio: 520,
     img: './imagenes/academia-digital1.jpg',
-    descripcion: 'Curso de Diseño Web con Wordpress y herramientas Drag & Drop'
+    descripcion: 'Curso de Diseño Web con Wordpress y herramientas Drag & Drop',
   },
   {
     id: 3,
     nombre: 'Marketing Digital',
     precio: 490,
     img: './imagenes/talleres-online1.jpg',
-    descripcion: 'Curso de Marketing Digital Aprende a posicionar tu negocio a nivel global'
+    descripcion:
+      'Curso de Marketing Digital Aprende a posicionar tu negocio a nivel global',
   },
+  
 ];
 
 let boton = '';
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
-document.addEventListener('DOMContentLoaded',() => {
+document.addEventListener(
+  'DOMContentLoaded',
+  () => {
     servicios.forEach((servicio) => {
       mostrarServicios(servicio);
     });
+
+    mostrarCarrito(carrito);
   },
   false
 );
@@ -51,7 +58,6 @@ function mostrarServicios(servicio) {
       </div>
     </div>
   `;
-  
 
   cursos.appendChild(serviciosDivContainer);
 
@@ -61,7 +67,10 @@ function mostrarServicios(servicio) {
 
 //Funcion agregar Servicios al Carrito
 function agregar(e) {
-  const servicioSeleccionado = servicios.filter((servicio) => servicio.id === parseInt(e.target.attributes['data-servicioId'].value))[0];
+  const servicioSeleccionado = servicios.filter(
+    (servicio) =>
+      servicio.id === parseInt(e.target.attributes['data-servicioId'].value)
+  )[0];
   //console.(servicioSeleccionado);
 
   //Verificar si el Servicio ya esta en el carrito
@@ -80,76 +89,75 @@ function agregar(e) {
 
   localStorage.setItem('carrito', JSON.stringify(carrito));
 
-  mostrarCarrito(true, carrito);
-  calcularTotal();
+  mostrarCarrito(carrito);
+  // calcularTotal();
 }
 
 //funcion para mostrar el carrito con los servicios seleccionados
-function mostrarCarrito(refresh = false, carritoActualizado) {
+function mostrarCarrito(carritoActualizado) {
   const carritoContainerDiv = document.querySelector('.carrito-container');
   const carritoList = document.querySelector('.carrito-list');
 
-  if (refresh) {
-    console.log(carritoList.lastChild);
-    let elementAEliminar = carritoList.lastChild;
-    while (elementAEliminar) {
-      carritoList.removeChild(elementAEliminar);
-      elementAEliminar = carritoList.lastChild;
-    }
-    carritoContainerDiv.classList.remove('carrito-container-active');
-  }
+  carritoList.innerHTML = '';
 
   carritoActualizado.forEach((servicio) => {
     const carritoItemList = document.createElement('LI');
     carritoItemList.innerHTML += `
-    <p>Nombre:${servicio.nombre}</p>
-    <p>Precio:$${servicio.precio * servicio.cantidad}</p>
+    <p>Nombre: ${servicio.nombre}</p>
+    <p>Precio: $${servicio.precio * servicio.cantidad}</p>
     <p>Cantidad: ${servicio.cantidad}</p>
     <button type="button" class="eliminar-btn" data-servicioId="${
       servicio.id
     }" id="btn-eliminar${servicio.id}">Eliminar</button>
     
     `;
-
-    carritoContainerDiv.classList.add('carrito-container-active');
+    carritoItemList.classList.add('li-carrito');
+    // carritoContainerDiv.classList.add('carrito-container-active');
     carritoList.appendChild(carritoItemList);
     carritoContainerDiv.appendChild(carritoList);
-    document.body.appendChild(carritoContainerDiv);
-    console.log(carrito.length);
 
-    if (carrito.length === 0) {
-      carritoContainerDiv.classList.remove('carrito-container-active');
-      document.body.removeChild(carritoContainerDiv);
-      return;
-    }
+    // if (carrito.length === 0) {
+    //   // carritoContainerDiv.classList.remove('carrito-container');
+    //   document.body.removeChild(carritoContainerDiv);
+    //   return;
+    // }
     carritoItemList.addEventListener('click', eliminarDelCarrito); //Aca se crea el evento click cada vez que se crea el boton eliminar, se le pasa el evento por parametro para poder tener en tiempo real a lo que se le dio click
   });
+
+  calcularTotal(carritoActualizado);
 }
 
 //Funcion Eliminar S>ervicio del Carrito
 const eliminarDelCarrito = (e) => {
   if (e.target.classList.contains('eliminar-btn')) {
-    const carritoActualizado = carrito.filter((item) => item.id !== parseInt(e.target.attributes['data-servicioId'].value));
+    const carritoActualizado = carrito.filter(
+      (item) =>
+        item.id !== parseInt(e.target.attributes['data-servicioId'].value)
+    );
     carrito = [...carritoActualizado];
 
     localStorage.setItem('carrito', JSON.stringify([...carrito]));
+
+    mostrarCarrito(carrito);
   }
 
-  mostrarCarrito(true, carrito);
-  calcularTotal();
+  calcularTotal(carrito);
 };
 
 //Funcion Calcular Total
-function calcularTotal() {
+function calcularTotal(carrito) {
   precioTotal.innerHTML = '';
   let total = 0;
   carrito.forEach((servicio) => {
     total += servicio.precio * servicio.cantidad;
   });
   let totalElement = document.createElement('div');
-  totalElement.innerHTML = ` <h4> Total: $${total}</h4>`;
+  totalElement.innerHTML =
+    total === 0
+      ? `<h4 class="text-center">No hay productos en el carrito</h4>`
+      : `<h4> Total: $${total}</h4>`;
 
   precioTotal.appendChild(totalElement);
 }
 
-mostrarCarrito(true, carrito);
+mostrarCarrito(carrito);
