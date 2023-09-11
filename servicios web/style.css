@@ -84,3 +84,15 @@ b {
     top: 1px;
 }
   
+.btn.btn-primary { 
+    background-color: rgb(71, 31, 165);
+    border: rgb(71, 31, 165);
+    border-radius: 4%;
+    margin-bottom: 6px;
+}
+
+.modal-content {
+    background-color: rgb(24, 25, 26);
+    color: #e7dddd;
+
+}

@@ -1,3 +1,5 @@
+
+
 const cursos = document.getElementById('cursos');
 
 //Creamos el Array de Objetos para los Servicios
@@ -43,6 +45,7 @@ document.addEventListener(
   false
 );
 
+//creamos la funcion para mostrar los servicios
 function mostrarServicios(servicio) {
   const serviciosDivContainer = document.createElement('DIV');
   serviciosDivContainer.innerHTML = `
@@ -67,11 +70,14 @@ function mostrarServicios(servicio) {
 
 //Funcion agregar Servicios al Carrito
 function agregar(e) {
-  const servicioSeleccionado = servicios.filter(
+  const servicioSeleccionado = servicios.find(
     (servicio) =>
       servicio.id === parseInt(e.target.attributes['data-servicioId'].value)
-  )[0];
-  //console.(servicioSeleccionado);
+  );
+  
+  if(!servicioSeleccionado){
+    return;
+  }
 
   //Verificar si el Servicio ya esta en el carrito
   const servicioEnCarrito = carrito.find(
@@ -90,13 +96,15 @@ function agregar(e) {
   localStorage.setItem('carrito', JSON.stringify(carrito));
 
   mostrarCarrito(carrito);
-  // calcularTotal();
+  
+  
 }
 
 //funcion para mostrar el carrito con los servicios seleccionados
 function mostrarCarrito(carritoActualizado) {
   const carritoContainerDiv = document.querySelector('.carrito-container');
   const carritoList = document.querySelector('.carrito-list');
+ 
 
   carritoList.innerHTML = '';
 
@@ -112,22 +120,20 @@ function mostrarCarrito(carritoActualizado) {
     
     `;
     carritoItemList.classList.add('li-carrito');
-    // carritoContainerDiv.classList.add('carrito-container-active');
+
     carritoList.appendChild(carritoItemList);
     carritoContainerDiv.appendChild(carritoList);
 
-    // if (carrito.length === 0) {
-    //   // carritoContainerDiv.classList.remove('carrito-container');
-    //   document.body.removeChild(carritoContainerDiv);
-    //   return;
-    // }
-    carritoItemList.addEventListener('click', eliminarDelCarrito); //Aca se crea el evento click cada vez que se crea el boton eliminar, se le pasa el evento por parametro para poder tener en tiempo real a lo que se le dio click
+    //Se crea el evento click cada vez que se crea el boton eliminar, se le pasa el evento por parametro para poder tener en tiempo real a lo que se le dio click
+    carritoItemList.addEventListener('click', eliminarDelCarrito);
   });
-
+  
   calcularTotal(carritoActualizado);
 }
 
-//Funcion Eliminar S>ervicio del Carrito
+
+
+//Funcion Eliminar Servicio del Carrito
 const eliminarDelCarrito = (e) => {
   if (e.target.classList.contains('eliminar-btn')) {
     const carritoActualizado = carrito.filter(
@@ -161,3 +167,21 @@ function calcularTotal(carrito) {
 }
 
 mostrarCarrito(carrito);
+
+
+  // Agregar el botón "Comprar" al final del Carrito de Compras
+  const carritoContainer = document.querySelector('.carrito-container');
+  const comprarBtn = document.createElement('button');
+  comprarBtn.textContent = 'Comprar';
+  comprarBtn.className = 'btn btn-primary';
+  comprarBtn.style.display = "none;"
+  comprarBtn.addEventListener('click', () => {
+    // Mostrar la ventana modal de éxito
+    const exitoModal = new bootstrap.Modal(
+      document.getElementById('exitoModal')
+    );
+    exitoModal.show();
+  });
+  carritoContainer.appendChild(comprarBtn);
+
+
