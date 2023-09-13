@@ -42,18 +42,18 @@ document.addEventListener(
 // Crear función asincrónica para cargar los datos desde data.json
 async function cargarDatos() {
   try {
-    const response = await fetch('./servicios web/data.json'); // Realizar una solicitud GET al archivo data.json
+    // Realizar una solicitud GET al archivo data.json
+    const response = await fetch('./servicios web/data.json');
     if (!response.ok) {
       throw new Error('No se pudo cargar el archivo JSON.');
     }
-
-    const data = await response.json(); // Convertir la respuesta en formato JSON
+    // Convertir la respuesta en formato JSON
+    const data = await response.json();
 
     // Iterar sobre los datos y mostrar los servicios
     data.servicios.forEach((servicio) => {
       mostrarServicios(servicio);
     });
-
   } catch (error) {
     console.error('Se produjo un error:', error);
   }
