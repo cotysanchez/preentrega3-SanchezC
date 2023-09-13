@@ -162,39 +162,32 @@ const eliminarDelCarrito = (e) => {
   calcularTotal(carrito);
 };
 
+
 //Funcion Calcular Total
 function calcularTotal(carrito) {
-  precioTotal.innerHTML = '';
-  let total = 0;
-  carrito.forEach((servicio) => {
-    total += servicio.precio * servicio.cantidad;
-  });
-  //Carrito Vacío
-  let totalElement = document.createElement('div');
-  totalElement.innerHTML =
-    total === 0
-      ? `<h4 class="text-center">No hay productos en el carrito</h4>`
-      : `<h4> Total: $${total}</h4>`;
+	precioTotal.innerHTML = "";
+	let total = 0;
+	carrito.forEach((servicio) => {
+		total += servicio.precio * servicio.cantidad;
+	});
+	//Carrito Vacío
+	let totalElement = document.createElement("div");
+	if (total !== 0) {
+		// Agregar el botón "Comprar" al final del Carrito de Compras
+		const comprarBtn = document.createElement("button");
+		comprarBtn.textContent = "Comprar";
+		comprarBtn.className = "btn btn-primary";
+		precioTotal.appendChild(comprarBtn);
+		comprarBtn.addEventListener("click", () => {
+			// Mostrar la ventana modal de éxito
+			const exitoModal = new bootstrap.Modal(document.getElementById("exitoModal"));
+			exitoModal.show();
+		});
+	}
+	totalElement.innerHTML = total === 0 ? `<h4 class="text-center">No hay productos en el carrito</h4>` : `<h4> Total: $${total}</h4>`;
 
-  precioTotal.appendChild(totalElement);
+	precioTotal.appendChild(totalElement);
 }
 
-mostrarCarrito(carrito);
-
-
-  // Agregar el botón "Comprar" al final del Carrito de Compras
-  const carritoContainer = document.querySelector('.carrito-container');
-  const comprarBtn = document.createElement('button');
-  comprarBtn.textContent = 'Comprar';
-  comprarBtn.className = 'btn btn-primary';
-  comprarBtn.style.display = "none;"
-  comprarBtn.addEventListener('click', () => {
-    // Mostrar la ventana modal de éxito
-    const exitoModal = new bootstrap.Modal(
-      document.getElementById('exitoModal')
-    );
-    exitoModal.show();
-  });
-  carritoContainer.appendChild(comprarBtn);
 
 
