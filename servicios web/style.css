@@ -4,8 +4,6 @@ h1 {
     padding-top: 10px;
 }
 
-
-
 h4{
     color: #e7dddd;
     font-size: 25px;
@@ -19,14 +17,11 @@ p{
     color: #e7dddd;
 }
 
-
 body {
     background-image: url("../imagenes/fondo-hexagonal-oscuro-color-degradado_79603-1409.avif");
     background-size: cover;
     background-repeat: no-repeat;
 }
-
-
 
 button {
     background-color: rgb(71, 31, 165);
@@ -46,7 +41,6 @@ b {
 .card {
     background-color: rgb(24, 25, 26);   
 }
-
 
 .card-title {
     color: #e7dddd;

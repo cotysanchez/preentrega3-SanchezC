@@ -1,5 +1,3 @@
-
-
 const cursos = document.getElementById('cursos');
 
 //Creamos el Array de Objetos para los Servicios
@@ -35,22 +33,24 @@ let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 
 document.addEventListener(
   'DOMContentLoaded',() => {
+    // Llama a la función para cargar los datos cuando el DOM se ha cargado
     cargarDatos();
+    // Llama a la función para mostrar el contenido del carrito
     mostrarCarrito(carrito);
-    });
+  });
 
 // Crear función asincrónica para cargar los datos desde data.json
 async function cargarDatos() {
   try {
-    // Realizar una solicitud GET al archivo data.json
+    // Realizamos una solicitud GET al archivo data.json
     const response = await fetch('./servicios web/data.json');
     if (!response.ok) {
       throw new Error('No se pudo cargar el archivo JSON.');
     }
-    // Convertir la respuesta en formato JSON
+    // Convertimos la respuesta en formato JSON
     const data = await response.json();
 
-    // Iterar sobre los datos y mostrar los servicios
+    // Iteramos sobre los datos y mostrar los servicios
     data.servicios.forEach((servicio) => {
       mostrarServicios(servicio);
     });
@@ -58,7 +58,6 @@ async function cargarDatos() {
     console.error('Se produjo un error:', error);
   }
 }
-
 
 //creamos la funcion para mostrar los servicios
 function mostrarServicios(servicio) {
@@ -71,16 +70,16 @@ function mostrarServicios(servicio) {
         <h5 class="card-title">${servicio.nombre}</h5>
         <p class="card-text">${servicio.descripcion} </p>
         <p>Id:${servicio.id}</p>
-        <b>$${servicio.precio}</b>
+        <b> U$D ${servicio.precio}</b>
         <button type="button" data-servicioId="${servicio.id}" id="boton${servicio.id}">Agregar al Carrito</button> 
       </div>
     </div>
   `;
 
-  cursos.appendChild(serviciosDivContainer);
+  cursos.appendChild(serviciosDivContainer); // Agrega el servicio a la página
 
   boton = document.getElementById(`boton${servicio.id}`);
-  boton.addEventListener('click', agregar);
+  boton.addEventListener('click', agregar); // Agrega un evento de clic para agregar el servicio al carrito
 }
 
 //Funcion agregar Servicios al Carrito
@@ -89,8 +88,8 @@ function agregar(e) {
     (servicio) =>
       servicio.id === parseInt(e.target.attributes['data-servicioId'].value)
   );
-  
-  if(!servicioSeleccionado){
+
+  if (!servicioSeleccionado) {
     return;
   }
 
@@ -108,40 +107,39 @@ function agregar(e) {
     carrito.push(servicioSeleccionado);
   }
 
-  localStorage.setItem('carrito', JSON.stringify(carrito));
+  localStorage.setItem('carrito', JSON.stringify(carrito)); // Actualiza el carrito en el almacenamiento local
 
-  mostrarCarrito(carrito);
+  mostrarCarrito(carrito); // Actualiza la visualización del carrito en la página
 }
 
 //funcion para mostrar el carrito con los servicios seleccionados
 function mostrarCarrito(carritoActualizado) {
   const carritoContainerDiv = document.querySelector('.carrito-container');
   const carritoList = document.querySelector('.carrito-list');
- 
 
-  carritoList.innerHTML = '';
+  carritoList.innerHTML = ''; // Limpia el contenido actual del carrito en la página
 
   carritoActualizado.forEach((servicio) => {
     const carritoItemList = document.createElement('LI');
     carritoItemList.innerHTML += `
     <p>Nombre: ${servicio.nombre}</p>
-    <p>Precio: $${servicio.precio * servicio.cantidad}</p>
+    <p>Precio: U$D ${servicio.precio * servicio.cantidad}</p>
     <p>Cantidad: ${servicio.cantidad}</p>
     <button type="button" class="eliminar-btn" data-servicioId="${
       servicio.id
     }" id="btn-eliminar${servicio.id}">Eliminar</button>
     
     `;
-    carritoItemList.classList.add('li-carrito');
+    carritoItemList.classList.add('li-carrito'); // Agrega una clase CSS para estilos
 
-    carritoList.appendChild(carritoItemList);
+    carritoList.appendChild(carritoItemList); // Agrega el servicio al carrito en la página
     carritoContainerDiv.appendChild(carritoList);
 
     //Se crea el evento click cada vez que se crea el boton eliminar, se le pasa el evento por parametro para poder tener en tiempo real a lo que se le dio click
     carritoItemList.addEventListener('click', eliminarDelCarrito);
   });
-  
-  calcularTotal(carritoActualizado);
+
+  calcularTotal(carritoActualizado); // Calcula el total del carrito
 }
 
 
@@ -154,12 +152,12 @@ const eliminarDelCarrito = (e) => {
     );
     carrito = [...carritoActualizado];
 
-    localStorage.setItem('carrito', JSON.stringify([...carrito]));
+    localStorage.setItem('carrito', JSON.stringify([...carrito])); // Actualiza el carrito en el almacenamiento local
 
-    mostrarCarrito(carrito);
+    mostrarCarrito(carrito); // Actualiza la visualización del carrito en la página
   }
 
-  calcularTotal(carrito);
+  calcularTotal(carrito); // Calcula el total del carrito
 };
 
 
@@ -173,7 +171,7 @@ function calcularTotal(carrito) {
 	//Carrito Vacío
 	let totalElement = document.createElement("div");
 	if (total !== 0) {
-		// Agregar el botón "Comprar" al final del Carrito de Compras
+		// Agrega el botón "Comprar" al final del Carrito de Compras
 		const comprarBtn = document.createElement("button");
 		comprarBtn.textContent = "Comprar";
 		comprarBtn.className = "btn btn-primary";
@@ -184,7 +182,7 @@ function calcularTotal(carrito) {
 			exitoModal.show();
 		});
 	}
-	totalElement.innerHTML = total === 0 ? `<h4 class="text-center">No hay productos en el carrito</h4>` : `<h4> Total: $${total}</h4>`;
+	totalElement.innerHTML = total === 0 ? `<h4 class="text-center">No hay productos en el carrito</h4>` : `<h4> Total: U$D ${total}</h4>`;
 
 	precioTotal.appendChild(totalElement);
 }
