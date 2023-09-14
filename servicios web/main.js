@@ -39,7 +39,7 @@ document.addEventListener(
     mostrarCarrito(carrito);
   });
 
-// Crear función asincrónica para cargar los datos desde data.json
+// Creamos función asincrónica para cargar los datos desde data.json
 async function cargarDatos() {
   try {
     // Realizamos una solicitud GET al archivo data.json
