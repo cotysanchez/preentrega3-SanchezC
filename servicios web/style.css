@@ -88,7 +88,13 @@ b {
 .modal-content {
     background-color: rgb(24, 25, 26);
     color: #e7dddd;
-
 }
 
-
+.modal-header {
+width: 100%;
+justify-content: center;
+}
+    
+.modal-footer {
+    width: 100%;
+}
